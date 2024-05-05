@@ -1,10 +1,10 @@
 // AuthService.js
 import CryptoJS from 'crypto-js';
 
-const apiUrl = "https://sandbox-authservice.priaid.ch/login";
-const apiKey = "myapikey";
-const secretKey = "mysecretkey";
-
+const apiUrl = "https://authservice.priaid.ch/login";
+const apiKey = import.meta.env.VITE_API_KEY;
+const secretKey = import.meta.env.VITE_SECRET_KEY;
+console.log(apiKey,secretKey)
 export const generateAuthToken = async () => {
     try {
         // Compute the HMAC-MD5 hash of the URI using the secret key
@@ -18,8 +18,9 @@ export const generateAuthToken = async () => {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Authorization': authorizationHeader,
-                'Content-Type': 'application/json'
+                Authorization: authorizationHeader,
+                "Content-Type": 'application/json',
+                Accept: 'application/json',
             },
             body: JSON.stringify({}) // Empty body for POST request
         });

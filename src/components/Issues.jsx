@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { issueArr } from "../DataFiles/IssueArr";
-import { baseUrl, token } from "../DataFiles/Urls";
+// import { issueArr } from "../DataFiles/IssueArr";
+import { baseUrl} from "../DataFiles/Urls";
 import toast from "react-hot-toast";
 import { addRoute, setIssueInStore } from "../redux/reducers/userDetailsSlice";
-const Issues = () => {
+const Issues = ({token}) => {
   // console.log(issueArr);
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
@@ -25,7 +25,7 @@ const Issues = () => {
       try {
         toast.loading("fetching Issues", { id: "fetchIssues" });
         const response = await fetch(
-          `${baseUrl}diagnosis?symptoms=[${userDetails.symptoms}]&gender=${userDetails.gender}&year_of_birth=${userDetails.age}&${token}`
+          `${baseUrl}diagnosis?symptoms=[${userDetails.symptoms}]&gender=${userDetails.gender}&year_of_birth=${userDetails.age}&token=${token}&format=json&language=en-gb`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

@@ -9,31 +9,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addRoute, setSelectedBodyPart, setSymptomInStore } from "../redux/reducers/userDetailsSlice";
-import { baseUrl,token} from "../DataFiles/Urls";
+import { baseUrl} from "../DataFiles/Urls";
 import toast from "react-hot-toast";
-import { generateAuthToken } from "../Utils/GenerateToken";
-const BodyLocation = () => {
+const BodyLocation = ({token}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const symptom=useSelector((state)=>state.userDetails.symptoms);
   const [rotateBody, setRotateBody] = useState(false);
   const gender = useSelector((state) => state.userDetails.gender);
   const age = useSelector((state) => state.userDetails.age);
-  // const [token,setToken]=useState("");
-  // useEffect(() => {
-  //   // Define the URI and secret key
-  //   const fetchData = async () => {
-  //     try {
-  //         // Call the authenticate function to get the token
-  //         const token = await generateAuthToken();
-  //         console.log('Authentication token:', token);
-  //     } catch (error) {
-  //         console.error('Failed to authenticate:', error.message);
-  //     }
-  // };
-
-//   fetchData();
-// }, []);
+  
   useEffect(() => {
     if (!age || !gender) {
       navigate("/");
@@ -54,7 +39,7 @@ const BodyLocation = () => {
       try {
         toast.loading("fetching symptoms", { id: "fetchSymptoms" });
         const response = await fetch(
-          `${baseUrl}symptoms/${selectedBodyPart}/0?${token}`
+          `${baseUrl}symptoms/${selectedBodyPart}/0?token=${token}&format=json&language=en-gb`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast';
-import { baseUrl, token } from '../DataFiles/Urls';
+import { baseUrl } from '../DataFiles/Urls';
 import { useNavigate } from 'react-router-dom';
 import { addRoute } from '../redux/reducers/userDetailsSlice';
-const Treatement = () => {
+const Treatement = ({token}) => {
   const issue=useSelector((state)=>state.userDetails.issues);
   const [issueDetails,setIssueDetails]=useState(null);
   const navigate=useNavigate();
@@ -13,7 +13,7 @@ const Treatement = () => {
     const fetchDetails=async()=>{
       try {
         toast.loading("fetching details",{id:"detailsFetch"})
-        const response=await fetch(`${baseUrl}/issues/${issue}/info?${token}`);
+        const response=await fetch(`${baseUrl}/issues/${issue}/info?token=${token}&format=json&language=en-gb`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
